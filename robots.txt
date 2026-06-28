@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://righthandstudio.co/sitemap.xml
