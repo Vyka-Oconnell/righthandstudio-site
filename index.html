@@ -1,0 +1,3032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Right Hand Studio — Human is the new luxury.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────── */
+    :root {
+      --bg:           #F9F8F6;
+      --primary:      #1C1A18;
+      --accent:       #AC532E;
+      --secondary:    #988870;
+      --white:        #FFFFFF;
+      --section-alt:  #ECEAE3;
+
+      --font-display: 'Gloock', Georgia, 'Times New Roman', serif;
+      --font-body:    'Instrument Sans', Arial, Helvetica, sans-serif;
+
+      --hero-size:    clamp(60px, 7.5vw, 100px);
+      --h1-size:      clamp(40px, 4.5vw, 64px);
+      --h2-size:      clamp(28px, 3vw, 44px);
+      --body-size:    clamp(15px, 1.4vw, 17px);
+      --caption-size: 13px;
+
+      --v-pad: 100px;
+      --split-min: clamp(560px, 82vh, 840px);
+    }
+
+    /* ── RESET ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+
+    /* ── IMAGES ─────────────────────────────────────── */
+    .slot-img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+
+    /* ── SCROLL ANIMATIONS ──────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .fade-up.is-visible { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: 0.08s; }
+    .fade-up.delay-2 { transition-delay: 0.18s; }
+    .fade-up.delay-3 { transition-delay: 0.28s; }
+
+    /* ── NAV ────────────────────────────────────────── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 28px 52px;
+      transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+    }
+    #main-nav.scrolled {
+      background: var(--bg);
+      box-shadow: 0 1px 0 rgba(28, 26, 24, 0.07);
+      padding: 18px 52px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--primary);
+    }
+    .nav-logo .period { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 24px;
+      list-style: none;
+      margin: 0 48px;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 2px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.28s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .nav-soon {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 11px;
+      color: var(--secondary);
+      letter-spacing: 0;
+    }
+    .nav-link.is-stacked {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      line-height: 1.15;
+    }
+    .nav-link.is-stacked .nav-soon { font-size: 10px; line-height: 1; }
+
+    .nav-cta-btn {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--primary);
+      padding: 12px 22px;
+      border-radius: 999px;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+    .nav-cta-btn:hover { background: var(--accent); }
+
+    /* ── SECTION SCAFFOLD ───────────────────────────── */
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--v-pad) 52px;
+    }
+    .section-inner.narrow  { max-width: 740px; }
+    .section-inner.mid     { max-width: 1100px; }
+
+    /* ── UNIFIED MEDIA SPLIT (editorial image + copy) ─ */
+    .media-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: var(--split-min);
+    }
+    /* image always FIRST in source; --reverse flips it to the right on desktop */
+    .media-split--reverse .media-panel { order: 2; }
+    .media-split--reverse .media-copy  { order: 1; }
+
+    .media-panel {
+      position: relative;
+      overflow: hidden;
+      background: #E2DFD8;
+    }
+    .media-panel .slot-img { display: block; width: 100%; height: 100%; }
+
+    .media-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(64px, 6vw, 108px) clamp(32px, 5vw, 88px);
+    }
+    .media-copy > * { max-width: 540px; }
+
+    /* client-types strip beneath the Who-this-is-for split */
+    .who-for-clients {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(56px, 6vw, 92px) 52px;
+    }
+    .who-for-clients .client-types {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    @media (max-width: 900px) {
+      .media-split { grid-template-columns: 1fr; min-height: 0; }
+      .media-split--reverse .media-panel { order: 0; }
+      .media-split--reverse .media-copy  { order: 0; }
+      .media-panel { min-height: 360px; }
+      .media-copy { padding: 64px 28px; }
+      .who-for-clients { padding: 56px 28px; }
+    }
+
+    .section-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 40px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(28,26,24,0.15);
+      width: fit-content;
+    }
+
+    /* ── HERO ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    .hero-split {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      min-height: 100vh;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 72px 80px 52px;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #E8E5DF;
+    }
+
+    .hero-image-wrap .slot-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: var(--hero-size);
+      line-height: 1.04;
+      color: var(--primary);
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+    }
+
+    .hero-rule {
+      width: 52px;
+      height: 1px;
+      background: var(--accent);
+      margin: 32px 0;
+    }
+
+    .hero-subline {
+      font-family: var(--font-body);
+      font-size: clamp(17px, 1.6vw, 22px);
+      font-style: italic;
+      color: var(--secondary);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    .hero-scroll-hint {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--secondary);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+      margin-top: auto;
+      padding-top: 48px;
+      align-self: flex-start;
+    }
+    .hero-scroll-hint:hover { color: var(--accent); }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .cta-primary {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+    .cta-primary:hover { color: var(--accent); }
+
+    .cta-secondary {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+    .cta-secondary:hover { color: var(--primary); }
+
+    /* ── INTRO ──────────────────────────────────────── */
+    #intro { background: var(--bg); }
+
+    .intro-split {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 50px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--v-pad) 52px;
+    }
+    .intro-image {
+      height: 520px;
+      overflow: hidden;
+      position: static;
+      background: #E2DFD8;
+    }
+    .intro-image .slot-img { display: block; width: 100%; height: 100%; }
+
+    .intro-headline {
+      font-family: var(--font-display);
+      font-size: var(--h1-size);
+      color: var(--primary);
+      line-height: 1.35;
+      margin-bottom: 64px;
+      text-wrap: pretty;
+    }
+
+    .pain-point {
+      border-left: 2px solid var(--accent);
+      padding-left: 20px;
+      margin-bottom: 28px;
+      font-size: 16px;
+      color: var(--primary);
+      line-height: 1.7;
+    }
+    .pain-point:last-of-type { margin-bottom: 0; }
+
+    /* ── IMAGE BAND ─────────────────────────────────── */
+    .image-band {
+      width: 100%;
+      height: 52vh;
+      min-height: 320px;
+      overflow: hidden;
+      background: #E2DFD8;
+      display: block;
+    }
+    .image-band .slot-img { display: block; width: 100%; height: 100%; }
+
+    /* ── SOLUTIONS (tiers) ─────────────────────────── */
+    #solutions { background: var(--bg); }
+
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .tier-card {
+      padding: 48px 38px 44px;
+      transition: transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .tier-card:hover { transform: translateY(-3px); }
+
+    .tier-card--light  { background: #EDEAE2; }
+    .tier-card--dark   { background: var(--primary); }
+    .tier-card--accent { background: var(--accent); }
+
+    .tier-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      min-height: 1.1em;
+    }
+    .tier-card--light  .tier-name { color: var(--accent); }
+    .tier-card--dark   .tier-name { color: var(--accent); }
+    .tier-card--accent .tier-name { color: var(--white); }
+
+    .tier-label {
+      display: block;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--caption-size);
+      line-height: 1.45;
+      min-height: 5.8em;
+      margin-bottom: 24px;
+    }
+    .tier-card--light  .tier-label { color: var(--secondary); }
+    .tier-card--dark   .tier-label { color: rgba(152, 136, 112, 0.9); }
+    .tier-card--accent .tier-label { color: rgba(255, 255, 255, 0.7); }
+
+    .tier-divider {
+      width: 36px;
+      height: 1px;
+      margin-bottom: 28px;
+    }
+    .tier-card--light  .tier-divider { background: rgba(172, 83, 46, 0.22); }
+    .tier-card--dark   .tier-divider { background: rgba(255, 255, 255, 0.13); }
+    .tier-card--accent .tier-divider { background: rgba(255, 255, 255, 0.3); }
+
+    .tier-body {
+      font-size: var(--body-size);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+    .tier-card--light  .tier-body { color: var(--primary); }
+    .tier-card--dark   .tier-body { color: rgba(255, 255, 255, 0.8); }
+    .tier-card--accent .tier-body { color: var(--white); }
+
+    /* Bulleted tier body */
+    .tier-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 32px;
+      flex-grow: 1;
+    }
+    .tier-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 9px;
+      font-size: var(--body-size);
+      line-height: 1.5;
+    }
+    .tier-list li:last-child { margin-bottom: 0; }
+    .tier-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.5;
+    }
+    .tier-list-lead {
+      font-size: var(--body-size);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .tier-card--light  .tier-list, .tier-card--light  .tier-list-lead { color: var(--primary); }
+    .tier-card--dark   .tier-list, .tier-card--dark   .tier-list-lead { color: rgba(255, 255, 255, 0.8); }
+    .tier-card--accent .tier-list, .tier-card--accent .tier-list-lead { color: var(--white); }
+
+    .tier-cta {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding-bottom: 6px;
+      align-self: flex-start;
+      transition: opacity 0.2s ease, transform 0.25s ease;
+    }
+    .tier-cta:hover { transform: translateX(4px); }
+    .tier-card--light  .tier-cta { color: var(--primary); border-bottom: 1px solid rgba(28,26,24,0.35); }
+    .tier-card--dark   .tier-cta { color: var(--white);   border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .tier-card--accent .tier-cta { color: var(--white);   border-bottom: 1px solid rgba(255,255,255,0.55); }
+
+    .tiers-footnote {
+      text-align: center;
+      margin-top: 52px;
+      color: var(--secondary);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    /* À la carte — compact fourth offer */
+    .tier-alacarte {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 28px 38px;
+      background: #EDEAE2;
+      margin-top: 20px;
+    }
+    .tier-alacarte .tier-alacarte-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tier-alacarte .tier-name {
+      margin-bottom: 0;
+      font-size: 24px;
+      color: var(--accent);
+    }
+    .tier-alacarte .tier-label {
+      margin-bottom: 0;
+      min-height: 0;
+      color: var(--secondary);
+    }
+    .tier-alacarte .tier-body {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: var(--primary);
+      line-height: 1.6;
+    }
+
+    /* Access price list CTA — under all four offers */
+    .pricelist-cta-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 56px;
+    }
+    .pricelist-cta {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--primary);
+      border: 0;
+      padding: 18px 40px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricelist-cta:hover { background: var(--accent); }
+
+    /* Price list modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(28, 26, 24, 0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.is-open { display: flex; }
+
+    .modal-panel {
+      background: var(--bg);
+      max-width: 580px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 56px 52px 52px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 22px;
+      line-height: 1;
+      color: var(--secondary);
+      padding: 4px 8px;
+      transition: color 0.2s ease;
+    }
+    .modal-close:hover { color: var(--primary); }
+
+    .modal-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      margin-bottom: 10px;
+      text-wrap: balance;
+    }
+    .modal-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--secondary);
+      margin-bottom: 44px;
+      line-height: 1.55;
+    }
+
+    .modal-form { display: flex; flex-direction: column; gap: 30px; }
+
+    .modal-field { display: flex; flex-direction: column; gap: 8px; }
+    .modal-field-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+
+    .modal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .modal-chip-opt {
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(28,26,24,0.28);
+      background: transparent;
+      color: var(--primary);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .modal-chip-opt:hover,
+    .modal-chip-opt.selected {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+
+    .modal-input,
+    .modal-textarea {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--primary);
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(28,26,24,0.25);
+      padding: 8px 0 12px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s ease;
+      resize: none;
+      border-radius: 0;
+    }
+    .modal-input::placeholder,
+    .modal-textarea::placeholder { color: rgba(28,26,24,0.3); }
+    .modal-input:focus,
+    .modal-textarea:focus { border-bottom-color: var(--accent); }
+
+    .modal-submit {
+      margin-top: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--primary);
+      color: var(--bg);
+      border: 0;
+      padding: 20px 28px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      width: 100%;
+    }
+    .modal-submit:hover { background: var(--accent); }
+
+    @media (max-width: 600px) {
+      .modal-panel { padding: 44px 28px 36px; }
+    }
+
+    /* Validation error state */
+    .modal-field.has-error .modal-field-error { display: block; }
+    .modal-field.has-error .modal-input,
+    .modal-field.has-error .modal-textarea { border-bottom-color: var(--accent); }
+    .modal-field.has-error .modal-chips { outline: 1px solid rgba(172,83,46,0.4); outline-offset: 6px; }
+    .modal-field-error {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* Name row — two columns */
+    .modal-name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 480px) { .modal-name-row { grid-template-columns: 1fr; } }
+
+    /* Confirmation panel */
+    .modal-confirmation {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      padding: 72px 52px 56px;
+      background: var(--bg);
+      max-width: 520px;
+      width: 100%;
+      position: relative;
+    }
+    .modal-overlay.is-confirmed .modal-panel { display: none; }
+    .modal-overlay.is-confirmed .modal-confirmation { display: flex; }
+    .modal-conf-mark {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .modal-conf-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      text-wrap: balance;
+    }
+    .modal-conf-body {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--secondary);
+      max-width: 380px;
+      text-wrap: pretty;
+    }
+    .modal-conf-back {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--primary);
+      color: var(--bg);
+      border: 0;
+      padding: 16px 32px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.25s ease;
+    }
+    .modal-conf-back:hover { background: var(--accent); }
+    .modal-conf-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font-size: 22px;
+      color: var(--secondary);
+      padding: 4px 8px;
+      transition: color 0.2s ease;
+    }
+    .modal-conf-close:hover { color: var(--primary); }
+    @media (max-width: 600px) { .modal-confirmation { padding: 56px 28px 40px; } }
+
+    /* ── HOW WE WORK ────────────────────────────────── */
+    #how-we-work { background: var(--section-alt); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 52px;
+      margin-top: 16px;
+    }
+
+    .step-number {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 52px;
+      color: var(--accent);
+      opacity: 0.18;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .step-body { color: var(--secondary); line-height: 1.7; }
+
+    /* Closing banner — sits below the three steps */
+    .how-closing {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-top: 72px;
+      padding: 32px 36px;
+      background: var(--primary);
+      color: var(--white);
+    }
+    .how-closing-tick {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .how-closing-text {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.4;
+      color: var(--white);
+      text-wrap: pretty;
+      margin: 0;
+    }
+    .how-closing-text em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    @media (max-width: 600px) {
+      .how-closing { flex-direction: column; gap: 12px; padding: 28px 24px; margin-top: 56px; }
+    }
+
+    /* ── OUTCOMES ───────────────────────────────────── */
+    #outcomes { background: var(--primary); color: var(--white); }
+    #outcomes .section-label { color: var(--secondary); }
+
+    .outcomes-head {
+      max-width: 720px;
+      margin-bottom: 72px;
+    }
+
+    .outcomes-headline {
+      font-family: var(--font-display);
+      font-size: var(--h1-size);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+    .outcomes-headline em {
+      display: block;
+      font-style: italic;
+      color: var(--accent);
+    }
+    .outcomes-lead {
+      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: var(--body-size);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .outcomes-list {
+      list-style: none;
+      padding: 0;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .outcome-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 26px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+    .outcome-item:last-child { border-bottom: none; }
+    .outcome-num {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--secondary);
+    }
+
+    /* Summary row — sits beneath the outcomes list */
+    .outcomes-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 0;
+      padding-top: 56px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .outcomes-summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .outcomes-summary-word {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.5vw, 44px);
+      line-height: 1;
+      color: var(--white);
+      letter-spacing: -0.015em;
+    }
+    .outcomes-summary-sub {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--secondary);
+      line-height: 1.4;
+    }
+    @media (max-width: 900px) {
+      .outcomes-summary { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    }
+    @media (max-width: 480px) {
+      .outcomes-summary { grid-template-columns: 1fr; gap: 24px; padding-top: 40px; margin-top: 56px; }
+    }
+
+    /* ── TESTIMONIALS ───────────────────────────────── */
+    #testimonials { background: var(--bg); }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 16px;
+    }
+
+    .testimonial-card {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 1.8vw, 24px);
+      line-height: 1.45;
+      color: var(--primary);
+      text-wrap: pretty;
+      flex-grow: 1;
+    }
+
+    .testimonial-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(28, 26, 24, 0.1);
+    }
+
+    .testimonial-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .testimonial-avatar .slot-img { display: block; width: 100%; height: 100%; }
+    .testimonial-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+
+    .testimonial-avatar-private {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--canvas, #F4F1EA);
+      border: 1px solid rgba(28,26,24,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .private-monogram {
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--primary, #1C1A18);
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .private-dot { color: var(--accent, #AC532E); }
+
+    .testimonial-company {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--secondary);
+      line-height: 1.4;
+    }
+
+    .testimonial-name {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--primary);
+      line-height: 1.3;
+    }
+    .testimonial-role {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--secondary);
+      line-height: 1.4;
+    }
+
+    /* ── ABOUT & VALUES ─────────────────────────────── */
+    #who-for { background: var(--bg); }
+
+    .about-top {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 50px;
+      align-items: start;
+      margin-bottom: 96px;
+    }
+
+    .about-body {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--primary);
+      line-height: 1.38;
+      margin-bottom: 28px;
+      text-wrap: pretty;
+    }
+    .about-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--secondary);
+    }
+
+    .about-image-wrap {
+      height: 420px;
+      overflow: hidden;
+      background: #E2DFD8;
+    }
+    .about-image-wrap .slot-img { display: block; width: 100%; height: 100%; }
+
+    /* ── APPLY FORM (split: image + form) ───────────── */
+    #apply { background: var(--bg); }
+
+    .apply-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: var(--split-min);
+    }
+
+    .apply-image {
+      position: relative;
+      overflow: hidden;
+      background: #E2DFD8;
+    }
+    .apply-image .slot-img { display: block; width: 100%; height: 100%; }
+
+    .apply-right {
+      background: var(--section-alt);
+      padding: clamp(48px, 5vw, 76px) clamp(40px, 5vw, 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .apply-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 5.5vw, 68px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      margin-bottom: 18px;
+      text-wrap: balance;
+    }
+    .apply-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--secondary);
+      line-height: 1.55;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .apply-form { display: flex; flex-direction: column; gap: 24px; }
+
+    .apply-field { display: flex; flex-direction: column; gap: 10px; }
+
+    .apply-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+
+    .apply-input,
+    .apply-select {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--primary);
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(28, 26, 24, 0.28);
+      padding: 8px 0 12px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    .apply-input::placeholder { color: rgba(28, 26, 24, 0.3); }
+    .apply-input:focus,
+    .apply-select:focus { border-bottom-color: var(--accent); }
+
+    .apply-select-wrap { position: relative; }
+    .apply-select {
+      cursor: pointer;
+      padding-right: 24px;
+    }
+    .apply-select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 4px;
+      bottom: 18px;
+      width: 8px;
+      height: 8px;
+      border-right: 1px solid var(--primary);
+      border-bottom: 1px solid var(--primary);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+    .apply-select option { color: var(--primary); }
+
+    .apply-submit {
+      margin-top: 28px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: var(--primary);
+      color: var(--bg);
+      border: 0;
+      padding: 22px 28px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      width: 100%;
+    }
+    .apply-submit:hover { background: var(--accent); }
+
+    .apply-or-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--secondary);
+    }
+    .apply-or-divider::before,
+    .apply-or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(28, 26, 24, 0.14);
+    }
+
+    .apply-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      align-self: center;
+      margin-top: 40px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--primary);
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .apply-chip:hover {
+      background: var(--primary);
+      color: var(--bg);
+    }
+
+
+    /* Apply confirmation state */
+    .apply-confirmation {
+      display: none;
+      padding: 16px 0 0;
+    }
+    .apply-conf-accent {
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+    .apply-conf-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 24px;
+    }
+    .apply-conf-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.15;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .apply-conf-body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--secondary);
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 900px) {
+      .apply-split { grid-template-columns: 1fr; min-height: 0; }
+      .apply-image { height: 360px; }
+      .apply-right { padding: 64px 28px; }
+    }
+
+    /* ── FAQ (accordion) ────────────────────────────── */
+    #faq { background: var(--bg); }
+
+    .faq-head {
+      margin-bottom: 56px;
+    }
+    .faq-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--primary);
+      text-wrap: balance;
+    }
+    .faq-headline .dot { color: var(--accent); }
+
+    .faq-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-top: 1px solid rgba(28, 26, 24, 0.14);
+    }
+
+    .faq-item { border-bottom: 1px solid rgba(28, 26, 24, 0.14); }
+
+    .faq-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 30px 0;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+    }
+    .faq-row:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .faq-question {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 1.8vw, 24px);
+      line-height: 1.25;
+      color: var(--primary);
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .faq-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(28, 26, 24, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 18px;
+      line-height: 1;
+      font-family: var(--font-body);
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .faq-row:hover .faq-toggle {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+    .faq-item.is-open .faq-toggle {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer-wrap {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .faq-item.is-open .faq-answer-wrap {
+      max-height: 600px;
+    }
+
+    .faq-answer {
+      padding: 0 0 32px 0;
+      max-width: 720px;
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--secondary);
+    }
+    .faq-answer p + p { margin-top: 14px; }
+
+    @media (max-width: 700px) {
+      .faq-toggle { width: 34px; height: 34px; font-size: 16px; }
+    }
+
+    /* ── VALUES (dark editorial list) ───────────────── */
+    #values { background: var(--primary); color: var(--white); }
+    #values .section-label { color: var(--secondary); }
+
+    .values-head {
+      max-width: 880px;
+      margin-bottom: 88px;
+    }
+    .values-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 24px;
+      text-wrap: balance;
+    }
+    .values-headline .dot { color: var(--accent); }
+    .values-lead {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(17px, 1.6vw, 20px);
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 740px;
+    }
+
+    .values-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .value-row {
+      display: grid;
+      grid-template-columns: 60px 320px 1fr;
+      gap: 32px;
+      align-items: baseline;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .value-row:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+
+    .value-num {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--secondary);
+    }
+    .value-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 2.6vw, 34px);
+      line-height: 1.1;
+      color: var(--white);
+      letter-spacing: -0.015em;
+    }
+    .value-title .dot { color: var(--accent); }
+    .value-body {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.6);
+      text-wrap: pretty;
+    }
+
+    @media (max-width: 900px) {
+      .value-row {
+        grid-template-columns: 36px 1fr;
+        gap: 16px 20px;
+        padding: 24px 0;
+      }
+      .value-body {
+        grid-column: 2;
+        margin-top: -4px;
+      }
+    }
+
+    /* ── MEET THE FOUNDERS ──────────────────────────── */
+    #founders { background: var(--section-alt); }
+
+    .founders-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 5vw, 84px);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--v-pad) 52px;
+      align-items: start;
+    }
+    .founders-media .section-label { margin-bottom: 14px; }
+
+    .founders-headline {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 3.6vw, 52px);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      margin: 0 0 30px;
+      text-wrap: balance;
+    }
+
+    .founders-image-wrap {
+      aspect-ratio: 1123 / 1400;
+      width: 100%;
+      overflow: hidden;
+      background: #1F1C19;
+      border-radius: 3px;
+    }
+    .founders-image-wrap .slot-img { display: block; width: 100%; height: 100%; }
+
+    .founders-caption-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+      gap: 12px;
+      margin-top: 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+
+    .founders-quote {
+      margin-top: 32px;
+      padding: 6px 0 6px 24px;
+      border-left: 2px solid var(--accent);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(20px, 1.9vw, 26px);
+      line-height: 1.4;
+      color: var(--primary);
+      text-wrap: pretty;
+    }
+
+    .founders-body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--primary);
+      margin-bottom: 18px;
+    }
+    .founders-body:last-of-type { margin-bottom: 0; }
+
+    @media (max-width: 900px) {
+      .founders-split { grid-template-columns: 1fr; gap: 36px; padding: var(--v-pad) 28px; }
+      .founders-headline { margin-bottom: 24px; }
+    }
+
+    /* Client-types chip row — under the two-column top */
+    .client-types {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px 36px;
+      margin-top: 72px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(28, 26, 24, 0.12);
+    }
+    .client-type {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height: 1.2;
+      color: var(--primary);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .client-type-dot {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height: 1.2;
+      color: var(--accent);
+      user-select: none;
+    }
+    @media (max-width: 700px) {
+      .client-types { flex-direction: column; gap: 14px; align-items: flex-start; padding-top: 36px; margin-top: 56px; }
+      .client-type-dot { display: none; }
+    }
+
+    .values-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 44px;
+      display: block;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 60px;
+    }
+
+    .pillar-divider {
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .pillar-body { color: var(--secondary); line-height: 1.7; }
+
+    /* ── WHY US (dark, standalone) ──────────────────── */
+    #why-us { background: var(--primary); color: var(--white); }
+    #why-us .section-label { color: var(--accent); }
+    #why-us .pillar-title { color: var(--white); }
+    #why-us .pillar-body { color: rgba(255, 255, 255, 0.65); }
+    #why-us .pillar-divider { background: rgba(255, 255, 255, 0.22); }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer { background: var(--primary); }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 52px 32px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(152, 136, 112, 0.18);
+    }
+
+    .footer-logo {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 15px;
+      color: var(--white);
+      text-decoration: none;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .footer-logo .period { color: var(--accent); }
+
+    .footer-tagline {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--secondary);
+      font-size: 12px;
+      max-width: 260px;
+      line-height: 1.55;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .footer-col-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .footer-link {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .footer-link:hover { color: var(--accent); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: rgba(152, 136, 112, 0.7);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      color: rgba(152, 136, 112, 0.7);
+      transition: color 0.2s ease;
+      text-decoration: none;
+    }
+    .footer-social-link:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .nav-links { gap: 24px; }
+    }
+
+    @media (max-width: 900px) {
+      :root { --v-pad: 88px; }
+
+      #main-nav { padding: 22px 28px; }
+      #main-nav.scrolled { padding: 16px 28px; }
+
+      .nav-links { display: none; }
+
+      .section-inner { padding: var(--v-pad) 28px; }
+      .hero-text { padding: 130px 28px 88px; }
+      .intro-split { padding: var(--v-pad) 28px; grid-template-columns: 1fr; gap: 40px; }
+      .intro-image { height: 320px; position: static; }
+
+      .tiers-grid     { grid-template-columns: 1fr; gap: 14px; }
+      .tier-alacarte  { grid-template-columns: 1fr; gap: 16px; padding: 28px; }
+      .steps-grid     { grid-template-columns: 1fr; gap: 48px; }
+      .pillars-grid   { grid-template-columns: 1fr; gap: 48px; }
+      .testimonials-grid { grid-template-columns: 1fr; gap: 56px; }
+
+      .about-top { grid-template-columns: 1fr; gap: 48px; margin-bottom: 72px; }
+      .about-image-wrap { height: 280px; }
+
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+      .image-band { height: 36vh; min-height: 220px; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-split { grid-template-columns: 1fr; }
+      .hero-image-wrap { display: none; }
+      .hero-text { padding: 140px 28px 88px; }
+
+      .outcome-item { grid-template-columns: 50px 1fr; gap: 16px; font-size: 15px; }
+    }
+
+
+    /* ── PHONE PREFIX + APPLY TEXTAREA ─────────────── */
+    .modal-phone-row { display: flex; gap: 24px; align-items: flex-end; }
+    .modal-phone-number { flex: 1; min-width: 0; }
+    .modal-phone-prefix-input { width: 100%; }
+    .apply-textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+    .modal-phone-number { flex: 1; min-width: 0; }
+    .apply-textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+
+    /* ── FOOTER NEWSLETTER (inline) ─────────────────── */
+    .footer-nl-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px 7px 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.07em;
+      color: rgba(255,255,255,0.82);
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      margin-top: 12px;
+    }
+    .footer-nl-toggle:hover {
+      border-color: var(--accent);
+      color: #fff;
+      background: rgba(172,83,46,0.12);
+    }
+    .footer-nl-toggle::before { content: '+'; font-size: 14px; color: var(--accent); }
+
+    .footer-nl-inline {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .footer-nl-inline.is-open { max-height: 200px; }
+    .footer-nl-inline form { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .footer-nl-input {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 8px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .footer-nl-input::placeholder { color: rgba(244,241,234,0.3); }
+    .footer-nl-input:focus { border-bottom-color: rgba(244,241,234,0.55); }
+    .footer-nl-submit {
+      align-self: flex-start;
+      background: none;
+      border: 0;
+      color: var(--accent);
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 4px;
+    }
+    .footer-nl-submit:hover { color: rgba(244,241,234,0.9); }
+    .footer-nl-success {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(244,241,234,0.55);
+      display: none;
+      margin-top: 10px;
+    }
+    @media (max-width: 600px) {
+      :root { --v-pad: 72px; }
+      .tier-card { padding: 36px 28px 32px; }
+      .footer-inner { padding: 48px 24px 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    }
+  
+    /* ── CONFIRMATION POPUP ─────────────────────────────── */
+    .conf-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28,26,24,0.6);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .conf-popup-overlay.is-open {
+      display: flex;
+      animation: confFadeIn 0.25s cubic-bezier(0.22,0.61,0.36,1) both;
+    }
+    @keyframes confFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .conf-popup-card {
+      background: #F4F1EA;
+      border: 1px solid rgba(28,26,24,0.1);
+      border-radius: 3px;
+      padding: 56px 56px 48px;
+      max-width: 560px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 24px 64px -24px rgba(28,26,24,0.3);
+      animation: confSlideUp 0.28s cubic-bezier(0.22,0.61,0.36,1) both;
+    }
+    @keyframes confSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .conf-popup-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: var(--secondary);
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px 8px;
+      transition: color 0.15s;
+    }
+    .conf-popup-close:focus { outline: none; }
+    .conf-popup-close:hover { color: var(--primary); }
+    .conf-popup-accent {
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+    .conf-popup-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin: 0 0 16px;
+    }
+    .conf-popup-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 400;
+      color: var(--primary);
+      line-height: 1.15;
+      margin: 0 0 20px;
+    }
+    .conf-popup-body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--secondary);
+      margin: 0 0 36px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav id="main-nav">
+    <a href="#hero" class="nav-logo">right hand studio<span class="period">.</span></a>
+    <ul class="nav-links">
+      <li><a href="#intro" class="nav-link" data-link-kind="anchor">What we do</a></li>
+      <li><a href="#solutions" class="nav-link" data-link-kind="anchor">Solutions</a></li>
+      <li><a href="#how-we-work" class="nav-link" data-link-kind="anchor">How it works</a></li>
+      <li><a href="#" class="nav-link is-stacked" style="pointer-events:none;cursor:default;" data-link-kind="morningbrief">Morning Brief <span class="nav-soon">(coming soon)</span></a></li>
+    </ul>
+    <a href="https://calendly.com/righthandstudio/30-minutes" class="nav-cta-btn" data-link-kind="calendly">Start the conversation</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero" data-section-name="Hero">
+    <div class="hero-split">
+      <div class="hero-text">
+        <h1 class="hero-headline">Human is the new luxury.</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-subline">Executive and personal support.  Human-led, AI-powered.</p>
+      </div>
+      <div class="hero-image-wrap">
+        <img class="slot-img" id="hero-image" src="uploads/hero.png" alt="Right Hand Studio" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INTRO ── -->
+  <section id="intro" data-section-name="Intro">
+    <div class="media-split fade-up">
+      <div class="media-panel">
+        <img class="slot-img" id="intro-image" src="uploads/intro.jpg" alt="What we do" loading="lazy" />
+      </div>
+      <div class="media-copy">
+        <span class="section-label">WHAT WE DO</span>
+        <p class="intro-headline">Most assistants execute.
+Some automate.
+We operate.</p>
+        <div class="pain-point">We provide elite Executive and Personal Assistance designed for leaders who operate at a higher level. By combining human judgment, discretion, and strategic execution with AI-enhanced efficiency, we manage the complexity behind ambitious lives and businesses.</div>
+        <div class="pain-point">AI tools don't read the room. They replace tasks. Someone still needs to exercise judgment.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHY US ── -->
+  <section id="why-us" data-section-name="Why us">
+    <div class="section-inner mid fade-up">
+      <span class="section-label">Why us.</span>
+      <div class="pillars-grid">
+        <div class="pillar fade-up delay-1">
+          <div class="pillar-divider"></div>
+          <h3 class="pillar-title">Human first.</h3>
+          <p class="pillar-body">For those who know a system can't replace a person. 
+
+We are here for people who still value what can't be automated. Nuance, taste, discretion, caring,  these come from someone who actually knows you. We work for those who understand that the relationship isn't a feature, it's the whole point.
+
+</p>
+        </div>
+        <div class="pillar fade-up delay-2">
+          <div class="pillar-divider"></div>
+          <h3 class="pillar-title">AI-powered.</h3>
+          <p class="pillar-body">We use the best tools available to work faster and smarter. Everyone on our team is fluent in the latest AI tools , which means through one human relationship, you access everything modern automation can do. The warmth is personal. The capability is current. </p>
+        </div>
+        <div class="pillar fade-up delay-3">
+          <div class="pillar-divider"></div>
+          <h3 class="pillar-title">One agency, every angle.</h3>
+          <p class="pillar-body">You don't need a different specialist for every task. We're built to stretch across your world , research, ops, communications, travel, brand support, whatever the week demands, handled by one team that already knows you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── IMAGE BAND ── -->
+  <div class="image-band">
+    <img class="slot-img" id="band-image" src="uploads/band.png" alt="Working with Right Hand Studio" loading="lazy" />
+  </div>
+
+
+  <!-- ── SOLUTIONS ── -->
+  <section id="solutions" data-section-name="Solutions">
+    <div class="section-inner fade-up">
+      <span class="section-label">OUR SOLUTIONS</span>
+      <div class="tiers-grid">
+        <div class="tier-card tier-card--light fade-up delay-1">
+          <div class="tier-name">Executive Light</div>
+          <span class="tier-label">For executives who need reliable, responsive support without full delegation </span>
+          <div class="tier-divider"></div>
+          <ul class="tier-list">
+            <li>Calendar and inbox with strategic oversight</li>
+            <li>Briefings &amp; communications</li>
+            <li>Meeting prep, research &amp; decks</li>
+            <li>Stakeholder coordination</li>
+            <li>Business traveling</li>
+          </ul>
+        </div>
+        <div class="tier-card tier-card--dark fade-up delay-2">
+          <div class="tier-name">Executive Partner</div>
+          <span class="tier-label">For executives who want tasks completed without updates at every step </span>
+          <div class="tier-divider"></div>
+          <ul class="tier-list">
+            <li>Full inbox and calendar ownership</li>
+            <li>Complex travel logistics (multi-city, private travel coordination)</li>
+            <li>Vendor sourcing and management</li>
+            <li>Stakeholder communication</li>
+            <li>Light project coordination (Notion/Asana/Slack)</li>
+            <li>Weekly 30-min sync call (optional)</li>
+            <li>SOP documentation for recurring workflows</li>
+            <li>Workflow optimisation recommendations</li>
+          </ul>
+        </div>
+        <div class="tier-card tier-card--accent fade-up delay-3">
+          <div class="tier-name">Executive + Personal</div>
+          <span class="tier-label">For C-Suite and UHNW who need a true right-hand, professional and personal, unified </span>
+          <div class="tier-divider"></div>
+          <p class="tier-list-lead">Your Executive Partner Plan plus:</p>
+          <ul class="tier-list">
+            <li>Personal logistics (household vendors, appointments, family coordination)</li>
+            <li>Event planning and coordination</li>
+            <li>Lifestyle research and reservations</li>
+            <li>Extended hours availability</li>
+            <li>Quarterly ops + life review session (60 min)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Fourth offer: compact à la carte strip -->
+      <div class="tier-alacarte fade-up">
+        <div class="tier-alacarte-head">
+          <div class="tier-name">À la carte</div>
+          <span class="tier-label">Custom. Hourly.</span>
+        </div>
+        <p class="tier-body">For needs that fall outside the three tiers, highly personalised, deeply integral, or one-off in nature. We analyse the work, quote an hourly rate, and proceed only when the fit is right.</p>
+      </div>
+
+      <!-- Single CTA below all four offers -->
+      <div class="pricelist-cta-row">
+        <button class="pricelist-cta" onclick="document.getElementById('price-modal').classList.add('is-open')">Access price list →</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── HOW WE WORK ── -->
+  <section id="how-we-work" data-section-name="How we work">
+    <div class="section-inner mid fade-up">
+      <span class="section-label">HOW IT WORKS</span>
+      <div class="steps-grid">
+        <div class="step fade-up delay-1">
+          <span class="step-number">01</span>
+          <h3 class="step-title">Discovery call.</h3>
+          <p class="step-body">A 30-minute conversation. We look at how you operate, what's not working, what could be optimised, and what you need, including the things you don't yet know you need. If the fit is right, we move forward together.</p>
+        </div>
+        <div class="step fade-up delay-2">
+          <span class="step-number">02</span>
+          <h3 class="step-title">Signature plan.</h3>
+          <p class="step-body">We come back with a plan and a quote built precisely for your world. Scope, cadence, level of involvement, nothing generic, nothing inflated. Sign when you're ready.</p>
+        </div>
+        <div class="step fade-up delay-3">
+          <span class="step-number">03</span>
+          <h3 class="step-title">Onboarding.</h3>
+          <p class="step-body">A dedicated working session: we learn the systems, the people, the patterns. You hand over the access we need, and within five business days, you're fully operational.</p>
+        </div>
+      </div>
+
+      <!-- Closing banner: after the three steps -->
+      <aside class="how-closing fade-up">
+        <span class="how-closing-tick">→</span>
+        <p class="how-closing-text">Five business days from YES, your right hand, ready when you are. <em>The work begins.</em></p>
+      </aside>
+    </div>
+  </section>
+
+<!-- ── WHO THIS IS FOR ── -->
+  <section id="who-for" data-section-name="Who this is for">
+    <div class="media-split media-split--reverse fade-up">
+      <div class="media-panel">
+        <img class="slot-img" id="who-for-image" src="uploads/who-for.png" alt="Who we work with" loading="lazy" />
+      </div>
+      <div class="media-copy">
+        <span class="section-label">Who this is for.</span>
+        <p class="about-body">For those who know what their time is worth and are ready to trust their right hand with the rest.</p>
+        <p class="about-sub">We choose who we work with carefully. So do our clients.
+The people behind your work aren't tools, they're trusted partners who happen to know every AI trick in the book.</p>
+      </div>
+    </div>
+
+    <div class="who-for-clients">
+      <!-- Client types -->
+      <div class="client-types fade-up">
+        <span class="client-type">Founders &amp; entrepreneurs</span>
+        <span class="client-type-dot">·</span>
+        <span class="client-type">C-suite executives</span>
+        <span class="client-type-dot">·</span>
+        <span class="client-type">Business owners</span>
+        <span class="client-type-dot">·</span>
+        <span class="client-type">Private individuals</span>
+        <span class="client-type-dot">·</span>
+        <span class="client-type">Family offices</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── OUTCOMES ── -->
+  <section id="outcomes" data-section-name="What you get">
+    <div class="section-inner mid fade-up">
+      <span class="section-label">What you get</span>
+      <div class="outcomes-head">
+        <h2 class="outcomes-headline">Not just assistance.<em>Execution you can trust.</em></h2>
+        <p class="outcomes-lead">You gain the rare advantage of knowing that what matters is handled, thoroughly, intelligently, and without constant oversight.</p>
+      </div>
+      <ul class="outcomes-list">
+        <li class="outcome-item"><span class="outcome-num">01</span><span>Things get done, without asking twice</span></li>
+        <li class="outcome-item"><span class="outcome-num">02</span><span>You gain back mental space, not just time</span></li>
+        <li class="outcome-item"><span class="outcome-num">03</span><span>Fewer loose ends, missed details, or decision fatigue</span></li>
+        <li class="outcome-item"><span class="outcome-num">04</span><span>Priorities move forward with momentum</span></li>
+        <li class="outcome-item"><span class="outcome-num">05</span><span>Business and personal life operate with greater clarity</span></li>
+        <li class="outcome-item"><span class="outcome-num">06</span><span>Problems are anticipated before they interrupt</span></li>
+        <li class="outcome-item"><span class="outcome-num">07</span><span>Communication becomes smoother and more strategic</span></li>
+        <li class="outcome-item"><span class="outcome-num">08</span><span>You feel supported, protected, and exceptionally well managed</span></li>
+      </ul>
+
+      <!-- Summary row -->
+      <div class="outcomes-summary fade-up">
+        <div class="outcomes-summary-item">
+          <span class="outcomes-summary-word">Less</span>
+          <span class="outcomes-summary-sub">mental load</span>
+        </div>
+        <div class="outcomes-summary-item">
+          <span class="outcomes-summary-word">More</span>
+          <span class="outcomes-summary-sub">focus</span>
+        </div>
+        <div class="outcomes-summary-item">
+          <span class="outcomes-summary-word">Higher</span>
+          <span class="outcomes-summary-sub">standards</span>
+        </div>
+        <div class="outcomes-summary-item">
+          <span class="outcomes-summary-word">Trusted</span>
+          <span class="outcomes-summary-sub">execution</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section id="testimonials" data-section-name="Testimonials">
+    <div class="section-inner fade-up">
+      <span class="section-label">Testimonials.</span>
+      <div class="testimonials-grid">
+        <article class="testimonial-card fade-up delay-1">
+          <p class="testimonial-quote">"I've worked with assistants before. This is something else. Within two weeks, my calendar made sense, my inbox stopped feeling like a threat, and I had my time back again. What surprised me most was how little I had to explain."</p>
+          <div class="testimonial-meta">
+            <div class="testimonial-avatar">
+              <img class="slot-img" id="eric-avatar" src="uploads/eric.png" alt="Eric Garin" loading="lazy" />
+            </div>
+            <div>
+              <div class="testimonial-name">Eric Garin</div>
+              <div class="testimonial-role">CEO &amp; Founder</div>
+              <div class="testimonial-company">Way Of Automation Lab</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card fade-up delay-2">
+          <p class="testimonial-quote">""I was skeptical that anyone could manage both the business side and my personal life without constant hand-holding. I was wrong. They became the layer between me and everything that used to interrupt my day."</p>
+          <div class="testimonial-meta">
+            <div class="testimonial-avatar-private">
+              <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Identity protected">
+                <rect x="0.5" y="0.5" width="21" height="15" rx="1" stroke="#1C1A18" stroke-width="0.75"/>
+                <path d="M1 1l10 8 10-8" stroke="#1C1A18" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="11" cy="9" r="2" fill="#AC532E"/>
+              </svg>
+            </div>
+            <div>
+              <div class="testimonial-name">James K.</div>
+              <div class="testimonial-role">Angel  investor</div>
+              <div class="testimonial-company">Private client</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card fade-up delay-3">
+          <p class="testimonial-quote">"I run a team across three time zones, and have a life outside of work that doesn't pause for any of it. Right Hand Studio didn't just take things off my plate; they took the right things. They are making my life so much easier"</p>
+          <div class="testimonial-meta">
+            <div class="testimonial-avatar">
+              <img src="uploads/agustin.png" alt="Agustin Micheletti" />
+            </div>
+            <div>
+              <div class="testimonial-name">Agustin Micheletti</div>
+              <div class="testimonial-role">Co-founder</div>
+              <div class="testimonial-company">The Primal Collective</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── MEET THE FOUNDERS ── -->
+  <section id="founders" data-section-name="Meet the founders">
+    <div class="founders-split fade-up">
+      <div class="founders-media">
+        <span class="section-label">BEHIND THE CURTAIN</span>
+        <h2 class="founders-headline" style="font-size: 44px">Meet the founders</h2>
+        <div class="founders-image-wrap">
+          <img class="slot-img" id="founders-image" src="uploads/founders.png" alt="Magali and Valeria, founders" loading="lazy" />
+        </div>
+        <div class="founders-caption-row">
+          <span><a href="https://www.linkedin.com/in/mdnovillo/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(28,26,24,0.3);">Magalí</a> · <a href="https://www.linkedin.com/in/valeria-kadletz/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(28,26,24,0.3);">Valeria</a></span>
+        </div>
+        <p class="founders-quote">Because when everything is racing to automate, the rarest thing you can give someone is a real person who knows them. Human is the new luxury.</p>
+      </div>
+      <div class="founders-copy">
+      <p class="founders-body">Magali and Valeria met at an entrepreneurs' event and recognised something immediately. Both had spent their careers working internationally, across industries and time zones, always as the person a leader couldn't run the week without. Same job, opposite paths.</p>
+      <p class="founders-body">Magali spent fifteen years in executive operations, strategic communication and business management, working directly with CEOs, founders and their teams. With a degree in Public Relations and a reputation for combining efficiency with genuine care, she made her name as the person leadership relied on. She has been incorporating AI into her practice for years and brings it directly into every client engagement.</p>
+      <p class="founders-body">Valeria built her career across hospitality and PropTech startups, working as a project manager and operational lead to founders and high-net-worth individuals. A business degree followed by an MBA shaped an instinct that was already entrepreneurial. An early adopter by curiosity, she has systematically applied AI across every domain of her work and makes sure those around her can do the same.</p>
+      <p class="founders-body">They agreed on one thing right away. There was a gap nobody was filling. Executive support that was sharp on technology but thin on the human side. Or warm and personal but lost the moment real tools entered the picture. You rarely got both.</p>
+      <p class="founders-body">They never bought the trade-off. People-first by nature and deep in AI, they founded Right Hand Studio to combine the two. AI-fluent where it earns its place. Human where it counts. No trade-off. They compound.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VALUES ── -->
+  <section id="values" data-section-name="Values">
+    <div class="section-inner mid fade-up">
+      <div class="values-head">
+        <span class="section-label">Value pillars.</span>
+        <h2 class="values-headline">Things we believe<span class="dot">.</span></h2>
+        <p class="values-lead">Every service decision, every line of copy, every client interaction reflects our values.</p>
+      </div>
+
+      <ul class="values-list">
+        <li class="value-row fade-up delay-1">
+          <span class="value-num">01</span>
+          <span class="value-title">Ownership<span class="dot">.</span></span>
+          <p class="value-body">We take responsibility, anticipate needs, solve problems, and care about outcomes.</p>
+        </li>
+        <li class="value-row fade-up delay-1">
+          <span class="value-num">02</span>
+          <span class="value-title">Judgment<span class="dot">.</span></span>
+          <p class="value-body">Context first. Action second.  We filter, prioritize, and protect your time</p>
+        </li>
+        <li class="value-row fade-up delay-2">
+          <span class="value-num">03</span>
+          <span class="value-title">Integration<span class="dot">.</span></span>
+          <p class="value-body">One agency, every angle. Full context, no re-explaining.</p>
+        </li>
+        <li class="value-row fade-up delay-2">
+          <span class="value-num">04</span>
+          <span class="value-title">Selective<span class="dot">.</span></span>
+          <p class="value-body">We take on few clients on purpose, because knowing someone well is what separates executing a task from anticipating a need.</p>
+        </li>
+        <li class="value-row fade-up delay-3">
+          <span class="value-num">05</span>
+          <span class="value-title">Discretion<span class="dot">.</span></span>
+          <p class="value-body">We don't talk about who we work with. We just work. Discretion is a default, not a setting.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section id="faq" data-section-name="FAQ">
+    <div class="section-inner mid fade-up">
+      <div class="faq-head">
+        <span class="section-label">
+</span>
+        <h2 class="faq-headline">FAQ.</h2>
+      </div>
+
+      <ul class="faq-list">
+        <li class="faq-item">
+          <button class="faq-row" type="button" aria-expanded="false">
+            <span class="faq-question">How is this different from a typical EA service?</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer">
+              <p>The people behind your account are trained to make judgment calls, not just complete tasks. They know how you work, what you value, and what you'd never want to be bothered with.  A team that treats AI as a tool, not a replacement. If you've ever had to repeat yourself to an assistant, you'll notice the difference immediately.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="faq-item">
+          <button class="faq-row" type="button" aria-expanded="false">
+            <span class="faq-question">Where does AI fit in?</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer">
+              <p>Everywhere it makes sense, and nowhere it doesn't. Our team uses AI to move faster on research, drafts, scheduling and logistics. But every output is reviewed, shaped and sent by a person. The thinking stays human. The speed doesn't.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="faq-item">
+          <button class="faq-row" type="button" aria-expanded="false">
+            <span class="faq-question">How do engagements begin?</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer">
+              <p>With a discovery call. You can book directly from our website or tell us when you're free and we'll come to you. We use that conversation to understand how you work, what you actually need, and whether we're the right fit. From there we put together a plan and a quote. Once you confirm and sign, we're ready to go within five business days.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="faq-item">
+          <button class="faq-row" type="button" aria-expanded="false">
+            <span class="faq-question">Is everything confidential?</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer">
+              <p>Yes. We sign an NDA at the start of every engagement and work within whatever confidentiality policy your company already has in place. Discretion isn't something we offer. It's how we operate as a default.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="faq-item">
+          <button class="faq-row" type="button" aria-expanded="false">
+            <span class="faq-question">What if my needs change?</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer-wrap">
+            <div class="faq-answer">
+              <p>That's expected, not an exception. You can move between plans at any time with 15 business days' notice, giving us time to reorganise and make sure you're fully covered through the transition. The first couple of months include a structured check-in to confirm the plan you started with is still the right one. After that, it's month-to-month.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── APPLY (form) ── -->
+  <section id="apply" data-section-name="Apply">
+    <div class="apply-split">
+      <div class="apply-image">
+        <img class="slot-img" id="apply-image" src="uploads/apply.png" alt="Apply to work with us" loading="lazy" />
+      </div>
+
+      <div class="apply-right fade-up">
+        <h2 class="apply-title">Ready to reclaim your time?</h2>
+        <p class="apply-sub">Tell us what's on your plate. We'll write back within one business day.</p>
+
+        <form class="apply-form" onsubmit="return window.__handleApplySubmit(event)">
+          <div class="apply-field">
+            <label class="apply-label" for="apply-name">Name</label>
+            <input id="apply-name" name="name" class="apply-input" type="text" autocomplete="name" required="">
+          </div>
+          <div class="apply-field">
+            <label class="apply-label" for="apply-email">Email</label>
+            <input id="apply-email" name="email" class="apply-input" type="email" autocomplete="email" required="">
+          </div>
+          <div class="apply-field">
+            <label class="apply-label" for="apply-company">Company &amp; role</label>
+            <input id="apply-company" name="company" class="apply-input" type="text" autocomplete="organization">
+          </div>
+          <div class="apply-field">
+            <label class="apply-label" for="apply-support">What kind of support</label>
+            <div class="apply-select-wrap">
+              <select id="apply-support" name="support" class="apply-select" required="">
+                <option value="" disabled="" selected="">Select an option</option>
+                <option value="executive-light">Executive Light</option>
+                <option value="executive-partner">Executive Partner</option>
+                <option value="executive-personal">Executive + Personal</option>
+                <option value="a-la-carte">À la carte</option>
+                <option value="not-sure">I don't know yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="apply-field">
+            <label class="apply-label" for="apply-timeline">Timeline</label>
+            <div class="apply-select-wrap">
+              <select id="apply-timeline" name="timeline" class="apply-select" required="">
+                <option value="" disabled="" selected="">Select an option</option>
+                <option value="immediately">Immediately</option>
+                <option value="within-month">Within the month</option>
+                <option value="within-quarter">Within the quarter</option>
+                <option value="exploring">Just exploring</option>
+              </select>
+            </div>
+          </div>
+          <div class="apply-field">
+            <label class="apply-label" for="apply-comments">Anything else on your plate?</label>
+            <textarea id="apply-comments" name="comments" class="apply-input apply-textarea" rows="3" placeholder="Fill us in."></textarea>
+          </div>
+          <button type="submit" class="apply-submit">Send →</button>
+        </form>
+
+        <!-- Confirmation state -->
+        <div class="apply-confirmation" id="apply-confirmation">
+          <span class="apply-conf-accent"></span>
+          <p class="apply-conf-label">Received.</p>
+          <h3 class="apply-conf-title">Your message has landed in a very tidy inbox.</h3>
+          <p class="apply-conf-body">We’ll write back within one business day. If you’d rather talk first, you can book 30 minutes below — we’ll have read your message before we meet.</p>
+          <a href="https://calendly.com/righthandstudio/30-minutes" class="apply-chip" target="_blank" rel="noopener noreferrer" data-link-kind="calendly">Start the conversation →</a>
+        </div>
+
+        <div class="apply-or-divider">or</div>
+        <a href="https://calendly.com/righthandstudio/30-minutes" class="apply-chip apply-calendly-chip" target="_blank" rel="noopener noreferrer" data-link-kind="calendly">Start the conversation →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <a href="#hero" class="footer-logo">right hand studio<span class="period">.</span></a>
+          <p class="footer-tagline">Human is the new luxury. Executive and personal support, human-led, AI-empowered.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/company/115991499" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn" data-social="linkedin">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="https://www.instagram.com/righthandstudio.co/" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram" data-social="instagram">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="mailto:hello@righthandstudio.co" class="footer-social-link" aria-label="Email us">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">About us</div>
+          <ul class="footer-col-links">
+            <li><a href="#founders" class="footer-link">Meet the founders</a></li>
+            <li><a href="#why-us" class="footer-link">Why us</a></li>
+            <li><a href="#values" class="footer-link">Things we believe</a></li>
+            <li><a href="#" class="footer-link" style="pointer-events:none;cursor:default;" data-link-kind="morningbrief">Morning Brief <span class="nav-soon">(coming soon)</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">About the brand</div>
+          <ul class="footer-col-links">
+            <li><a href="#intro" class="footer-link">What we do</a></li>
+            <li><a href="#solutions" class="footer-link">How we do it</a></li>
+            <li><a href="#how-we-work" class="footer-link">How it works</a></li>
+            <li><a href="#faq" class="footer-link">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-col-links">
+            <li><a href="mailto:hello@righthandstudio.co" class="footer-link">hello@righthandstudio.co</a></li>
+            <li>
+              <button class="footer-link footer-nl-toggle" type="button" onclick="this.closest('li').querySelector('.footer-nl-inline').classList.toggle('is-open')" >Subscribe to the newsletter</button>
+              <div class="footer-nl-inline">
+                <form id="newsletter-form" onsubmit="return window.__handleNewsletterSubmit(event)">
+                  <input class="footer-nl-input" type="text" name="name" placeholder="First name" required>
+                  <input class="footer-nl-input" type="email" name="email" placeholder="Email" required>
+                  <button type="submit" class="footer-nl-submit">Confirm →</button>
+                </form>
+                <p class="footer-nl-success" id="newsletter-success">You’ll be the first to know when the Morning Brief drops.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Right Hand Studio</p>
+        <p class="footer-copy">.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── PRICE LIST MODAL ── -->
+  <div id="price-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <button class="modal-close" onclick="document.getElementById('price-modal').classList.remove('is-open')" aria-label="Close">×</button>
+
+      <span class="modal-label">Pricing</span>
+      <h2 class="modal-title" id="modal-title">A few quick questions.</h2>
+      <p class="modal-sub">Help us send you the right information. It takes under a minute.</p>
+
+      <form class="modal-form" id="price-list-form" novalidate="">
+
+        <div class="modal-name-row">
+          <div class="modal-field">
+            <label class="modal-field-label" for="modal-firstname">First name <span style="color:var(--accent)">*</span></label>
+            <input id="modal-firstname" name="firstname" class="modal-input" type="text" autocomplete="given-name">
+            <span class="modal-field-error">Required</span>
+          </div>
+          <div class="modal-field">
+            <label class="modal-field-label" for="modal-lastname">Last name <span style="color:var(--accent)">*</span></label>
+            <input id="modal-lastname" name="lastname" class="modal-input" type="text" autocomplete="family-name">
+            <span class="modal-field-error">Required</span>
+          </div>
+        </div>
+
+        <div class="modal-field">
+          <label class="modal-field-label" for="modal-company">Company</label>
+          <input id="modal-company" name="company" class="modal-input" type="text" autocomplete="organization">
+        </div>
+
+        <div class="modal-field" id="modal-role-field">
+          <span class="modal-field-label">What best describes your role? <span style="color:var(--accent)">*</span></span>
+          <div class="modal-chips" data-field="role">
+            <button type="button" class="modal-chip-opt" data-val="Founders &amp; entrepreneurs">Founders &amp; entrepreneurs</button>
+            <button type="button" class="modal-chip-opt" data-val="C-suite executives">C-suite executives</button>
+            <button type="button" class="modal-chip-opt" data-val="Business owners">Business owners</button>
+            <button type="button" class="modal-chip-opt" data-val="Private individuals">Private individuals</button>
+            <button type="button" class="modal-chip-opt" data-val="Family offices">Family offices</button>
+            <button type="button" class="modal-chip-opt" data-val="Other">Other</button>
+          </div>
+          <input type="hidden" name="role" id="modal-role">
+          <span class="modal-field-error">Please select one</span>
+        </div>
+
+        <div class="modal-field">
+          <label class="modal-field-label" for="modal-email">Email <span style="color:var(--accent)">*</span></label>
+          <input id="modal-email" name="email" class="modal-input" type="email" placeholder="you@company.com" autocomplete="email">
+          <span class="modal-field-error">A valid email is required</span>
+        </div>
+
+        <div class="modal-field">
+          <label class="modal-field-label" for="modal-phone">Phone</label>
+          <div class="modal-phone-row">
+            <div class="modal-field" style="flex:0 0 auto;min-width:200px;gap:0;">
+              <input
+                class="modal-input modal-phone-prefix-input"
+                type="text"
+                id="modal-phone-prefix"
+                name="phone_prefix"
+                list="pp-countries"
+                placeholder="Country + code"
+                autocomplete="off"
+                spellcheck="false"
+              >
+              <datalist id="pp-countries">
+              <option value="🇦🇫 Afghanistan +93"></option>
+              <option value="🇦🇱 Albania +355"></option>
+              <option value="🇩🇿 Algeria +213"></option>
+              <option value="🇦🇴 Angola +244"></option>
+              <option value="🇦🇷 Argentina +54"></option>
+              <option value="🇦🇲 Armenia +374"></option>
+              <option value="🇦🇺 Australia +61"></option>
+              <option value="🇦🇹 Austria +43"></option>
+              <option value="🇦🇿 Azerbaijan +994"></option>
+              <option value="🇧🇭 Bahrain +973"></option>
+              <option value="🇧🇩 Bangladesh +880"></option>
+              <option value="🇧🇪 Belgium +32"></option>
+              <option value="🇧🇴 Bolivia +591"></option>
+              <option value="🇧🇦 Bosnia & Herzegovina +387"></option>
+              <option value="🇧🇷 Brazil +55"></option>
+              <option value="🇧🇬 Bulgaria +359"></option>
+              <option value="🇨🇲 Cameroon +237"></option>
+              <option value="🇨🇦 Canada +1"></option>
+              <option value="🇨🇱 Chile +56"></option>
+              <option value="🇨🇳 China +86"></option>
+              <option value="🇨🇴 Colombia +57"></option>
+              <option value="🇨🇷 Costa Rica +506"></option>
+              <option value="🇭🇷 Croatia +385"></option>
+              <option value="🇨🇿 Czech Republic +420"></option>
+              <option value="🇩🇰 Denmark +45"></option>
+              <option value="🇩🇴 Dominican Republic +1"></option>
+              <option value="🇪🇨 Ecuador +593"></option>
+              <option value="🇪🇬 Egypt +20"></option>
+              <option value="🇪🇹 Ethiopia +251"></option>
+              <option value="🇫🇮 Finland +358"></option>
+              <option value="🇫🇷 France +33"></option>
+              <option value="🇬🇪 Georgia +995"></option>
+              <option value="🇩🇪 Germany +49"></option>
+              <option value="🇬🇭 Ghana +233"></option>
+              <option value="🇬🇷 Greece +30"></option>
+              <option value="🇬🇹 Guatemala +502"></option>
+              <option value="🇭🇳 Honduras +504"></option>
+              <option value="🇭🇰 Hong Kong +852"></option>
+              <option value="🇭🇺 Hungary +36"></option>
+              <option value="🇮🇸 Iceland +354"></option>
+              <option value="🇮🇳 India +91"></option>
+              <option value="🇮🇩 Indonesia +62"></option>
+              <option value="🇮🇷 Iran +98"></option>
+              <option value="🇮🇶 Iraq +964"></option>
+              <option value="🇮🇪 Ireland +353"></option>
+              <option value="🇮🇱 Israel +972"></option>
+              <option value="🇮🇹 Italy +39"></option>
+              <option value="🇯🇲 Jamaica +1"></option>
+              <option value="🇯🇵 Japan +81"></option>
+              <option value="🇯🇴 Jordan +962"></option>
+              <option value="🇰🇿 Kazakhstan +7"></option>
+              <option value="🇰🇪 Kenya +254"></option>
+              <option value="🇰🇼 Kuwait +965"></option>
+              <option value="🇱🇻 Latvia +371"></option>
+              <option value="🇱🇧 Lebanon +961"></option>
+              <option value="🇱🇾 Libya +218"></option>
+              <option value="🇱🇹 Lithuania +370"></option>
+              <option value="🇱🇺 Luxembourg +352"></option>
+              <option value="🇲🇾 Malaysia +60"></option>
+              <option value="🇲🇹 Malta +356"></option>
+              <option value="🇲🇽 Mexico +52"></option>
+              <option value="🇲🇩 Moldova +373"></option>
+              <option value="🇲🇦 Morocco +212"></option>
+              <option value="🇳🇱 Netherlands +31"></option>
+              <option value="🇳🇿 New Zealand +64"></option>
+              <option value="🇳🇬 Nigeria +234"></option>
+              <option value="🇳🇴 Norway +47"></option>
+              <option value="🇴🇲 Oman +968"></option>
+              <option value="🇵🇰 Pakistan +92"></option>
+              <option value="🇵🇦 Panama +507"></option>
+              <option value="🇵🇾 Paraguay +595"></option>
+              <option value="🇵🇪 Peru +51"></option>
+              <option value="🇵🇭 Philippines +63"></option>
+              <option value="🇵🇱 Poland +48"></option>
+              <option value="🇵🇹 Portugal +351"></option>
+              <option value="🇶🇦 Qatar +974"></option>
+              <option value="🇷🇴 Romania +40"></option>
+              <option value="🇷🇺 Russia +7"></option>
+              <option value="🇸🇦 Saudi Arabia +966"></option>
+              <option value="🇸🇳 Senegal +221"></option>
+              <option value="🇷🇸 Serbia +381"></option>
+              <option value="🇸🇬 Singapore +65"></option>
+              <option value="🇸🇰 Slovakia +421"></option>
+              <option value="🇸🇮 Slovenia +386"></option>
+              <option value="🇿🇦 South Africa +27"></option>
+              <option value="🇰🇷 South Korea +82"></option>
+              <option value="🇪🇸 Spain +34"></option>
+              <option value="🇱🇰 Sri Lanka +94"></option>
+              <option value="🇸🇩 Sudan +249"></option>
+              <option value="🇸🇪 Sweden +46"></option>
+              <option value="🇨🇭 Switzerland +41"></option>
+              <option value="🇹🇼 Taiwan +886"></option>
+              <option value="🇹🇿 Tanzania +255"></option>
+              <option value="🇹🇭 Thailand +66"></option>
+              <option value="🇹🇳 Tunisia +216"></option>
+              <option value="🇹🇷 Turkey +90"></option>
+              <option value="🇺🇬 Uganda +256"></option>
+              <option value="🇺🇦 Ukraine +380"></option>
+              <option value="🇦🇪 United Arab Emirates +971"></option>
+              <option value="🇬🇧 United Kingdom +44"></option>
+              <option value="🇺🇸 United States +1"></option>
+              <option value="🇺🇾 Uruguay +598"></option>
+              <option value="🇺🇿 Uzbekistan +998"></option>
+              <option value="🇻🇪 Venezuela +58"></option>
+              <option value="🇻🇳 Vietnam +84"></option>
+              <option value="🇿🇲 Zambia +260"></option>
+              <option value="🇿🇼 Zimbabwe +263"></option>
+              </datalist>
+            </div>
+            <input id="modal-phone" name="phone" class="modal-input modal-phone-number" type="tel" placeholder="Phone number" autocomplete="tel-national">
+          </div>
+        </div>
+
+        <div class="modal-field">
+          <label class="modal-field-label" for="modal-location">Location (timezone)</label>
+          <input id="modal-location" name="location" class="modal-input" type="text" placeholder="e.g. New York, EST">
+        </div>
+
+        <div class="modal-field">
+          <label class="modal-field-label" for="modal-comments">Comments</label>
+          <textarea id="modal-comments" name="comments" class="modal-textarea" rows="3" placeholder="Fill us in — anything that helps us understand where you're at."></textarea>
+        </div>
+
+        <button type="submit" class="modal-submit" id="price-list-submit">Send me the price list →</button>
+      </form>
+    </div>
+
+    <!-- Confirmation panel -->
+    <div class="modal-confirmation" id="price-list-confirmation">
+      <button class="modal-conf-close" id="price-conf-close" aria-label="Close">×</button>
+      <div class="modal-conf-mark">✦</div>
+      <h2 class="modal-conf-title">One thing in our inbox,<br>one less in yours.</h2>
+      <p class="modal-conf-body">Your price list is on its way. A human is already on it, and it'll reach you within one business day.</p>
+      <button class="modal-conf-back" id="price-conf-back">Back to site</button>
+    </div>
+  </div>
+
+  <!-- ── TWEAKS MOUNT ── -->
+  <div id="tweaks-root"></div>
+
+  <!-- ── VANILLA JS ── -->
+  <script>
+    // ── EDITABLE REDIRECT URLS ─────────────────────────────────────────
+    // Change these three URLs once — every matching CTA on the page picks
+    // up the new value automatically. You can also edit them via the
+    // Tweaks panel (no code required).
+    // Migrate any stale Calendly URLs saved in localStorage by a previous Tweaks session
+    (function() {
+      var OLD = 'calendly.com/hello-righthandstudio/30min';
+      var OLD2 = 'calendly.com/righthandstudio/discovery-call';
+      var NEW = 'https://calendly.com/righthandstudio/30-minutes';
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          var v = localStorage.getItem(k);
+          if (v && (v.includes(OLD) || v.includes(OLD2))) {
+            localStorage.setItem(k, v.split(OLD).join(NEW.replace('https://','')).split(OLD2).join(NEW.replace('https://','')) );
+          }
+        }
+      } catch(e) {}
+    })();
+
+    window.__SITE_LINKS = /*LINKS-BEGIN*/{
+      "calendly":      "https://calendly.com/righthandstudio/30-minutes",
+      "faq":           "/faq",
+      "morningbrief":  "/morning-brief"
+    }/*LINKS-END*/;
+
+    function applySiteLinks(links) {
+      window.__SITE_LINKS = links;
+      document.querySelectorAll('[data-link-kind]').forEach(function(a) {
+        var kind = a.getAttribute('data-link-kind');
+        if (kind === 'anchor') return; // in-page anchor, leave alone
+        if (links[kind]) a.setAttribute('href', links[kind]);
+      });
+    }
+    applySiteLinks(window.__SITE_LINKS);
+
+    // Nav scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // Scroll animations
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // Fallback: if observer hasn't fired within 800ms, force all visible
+    setTimeout(function() {
+      document.querySelectorAll('.fade-up').forEach(function(el) {
+        el.classList.add('is-visible');
+      });
+    }, 800);
+
+    // Tweaks helpers
+    window.__applyAccent = function(color) {
+      document.documentElement.style.setProperty('--accent', color);
+    };
+    window.__applyDensity = function(density) {
+      document.documentElement.style.setProperty('--v-pad', density === 'compact' ? '80px' : '120px');
+    };
+    window.__applySiteLinks = applySiteLinks;
+
+    // Price list modal — chip selection
+    document.querySelectorAll('.modal-chips').forEach(function(group) {
+      group.querySelectorAll('.modal-chip-opt').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          group.querySelectorAll('.modal-chip-opt').forEach(function(c) { c.classList.remove('selected'); });
+          chip.classList.add('selected');
+          var field = group.getAttribute('data-field');
+          var hidden = document.getElementById('modal-' + field);
+          if (hidden) hidden.value = chip.getAttribute('data-val');
+        });
+      });
+    });
+
+    // Close modal on backdrop click
+    document.getElementById('price-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('is-open');
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') document.getElementById('price-modal').classList.remove('is-open');
+    });
+
+    // ── PRICE LIST FORM ──────────────────────────────────
+    // To enable real email delivery:
+    //   1. Go to formspree.io, create a form, set notification email to hello@righthandstudio.co
+    //   2. Replace 'YOUR_FORMSPREE_ID' below with your form ID (e.g. 'xpwzgkna')
+    var FORMSPREE_ID = 'xdavgwaw';
+
+    function __showPriceConfirmation() {
+      // Close the price modal
+      var modal = document.getElementById('price-modal');
+      if (modal) modal.classList.remove('is-open', 'is-confirmed');
+      // Show the popup
+      var popup = document.getElementById('price-conf-popup');
+      if (popup) popup.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function __validatePriceForm() {
+      var ok = true;
+      function check(el, test) {
+        var field = el.closest('.modal-field');
+        if (!test) { field.classList.add('has-error'); ok = false; }
+        else { field.classList.remove('has-error'); }
+      }
+      var fn = document.getElementById('modal-firstname');
+      var ln = document.getElementById('modal-lastname');
+      var em = document.getElementById('modal-email');
+      var role = document.getElementById('modal-role');
+      check(fn, fn.value.trim().length > 0);
+      check(ln, ln.value.trim().length > 0);
+      check(em, /^[^s@]+@[^s@]+.[^s@]+$/.test(em.value.trim()));
+      check(role, role.value.length > 0);
+      return ok;
+    }
+
+    document.getElementById('price-list-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!__validatePriceForm()) return;
+
+      var btn = document.getElementById('price-list-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      var fn = document.getElementById('modal-firstname').value.trim();
+      var ln = document.getElementById('modal-lastname').value.trim();
+
+      var payload = {
+        _subject: '💰 Price List Request — ' + fn + ' ' + ln,
+        _replyto: document.getElementById('modal-email').value.trim(),
+        'First name': fn,
+        'Last name': ln,
+        'Email': document.getElementById('modal-email').value.trim(),
+        'Company': document.getElementById('modal-company').value.trim(),
+        'Interested in / Persona / Role': document.getElementById('modal-role').value,
+        'Phone': document.getElementById('modal-phone').value.trim(),
+        'Location': document.getElementById('modal-location').value.trim(),
+        'Note': document.getElementById('modal-comments').value.trim()
+      };
+
+      if (FORMSPREE_ID !== 'YOUR_FORMSPREE_ID') {
+        fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.ok || data.next) {
+            __showPriceConfirmation();
+          } else {
+            btn.textContent = 'Something went wrong — please try again';
+            btn.disabled = false;
+          }
+        })
+        .catch(function() {
+          btn.textContent = 'Something went wrong — please try again';
+          btn.disabled = false;
+        });
+      } else {
+        // No Formspree ID yet — log and show confirmation (preview/staging mode)
+        console.log('Price list request (preview):', payload);
+        __showPriceConfirmation();
+      }
+    });
+
+    // Clear errors on input
+    ['modal-firstname','modal-lastname','modal-email'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function() {
+        el.closest('.modal-field').classList.remove('has-error');
+      });
+    });
+
+    // Confirmation: close button
+    document.getElementById('price-conf-close').addEventListener('click', function() {
+      var o = document.getElementById('price-modal');
+      o.classList.remove('is-open', 'is-confirmed');
+    });
+
+    // Confirmation: back to site
+    document.getElementById('price-conf-back').addEventListener('click', function() {
+      var o = document.getElementById('price-modal');
+      o.classList.remove('is-open', 'is-confirmed');
+      var form = document.getElementById('price-list-form');
+      form.reset();
+      form.querySelectorAll('.modal-chip-opt').forEach(function(ch) { ch.classList.remove('selected'); });
+      document.getElementById('modal-role').value = '';
+      form.querySelectorAll('.modal-field').forEach(function(f) { f.classList.remove('has-error'); });
+      var btn = document.getElementById('price-list-submit');
+      btn.textContent = 'Send me the price list →';
+      btn.disabled = false;
+    });
+
+    // ── APPLY FORM ────────────────────────────────────────
+    // To receive enquiries by email:
+    //   1. Go to formspree.io → create a new form
+    //   2. Set the notification email to hello@righthandstudio.co
+    //   3. Paste the form ID below (e.g. 'xpwzgkna')
+    var APPLY_FORMSPREE_ID = 'maqzopnl';
+
+    function __showApplyConfirmation(form) {
+      var popup = document.getElementById('apply-conf-popup');
+      if (popup) popup.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    window.__handleApplySubmit = function(e) {
+      e.preventDefault();
+      var form = e.target;
+      var data = Object.fromEntries(new FormData(form).entries());
+      var btn = form.querySelector('.apply-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      var payload = {
+        _subject: 'New enquiry — ' + (data.name || 'Website'),
+        _replyto: data.email,
+        'Name': data.name,
+        'Email': data.email,
+        'Company & role': data.company,
+        'Support needed': data.support,
+        'Timeline': data.timeline
+      };
+
+      if (APPLY_FORMSPREE_ID !== 'YOUR_APPLY_FORMSPREE_ID') {
+        fetch('https://formspree.io/f/' + APPLY_FORMSPREE_ID, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d.ok || d.next) {
+            __showApplyConfirmation(form);
+          } else {
+            btn.textContent = 'Something went wrong — please try again';
+            btn.disabled = false;
+          }
+        })
+        .catch(function() {
+          btn.textContent = 'Something went wrong — please try again';
+          btn.disabled = false;
+        });
+      } else {
+        // No Formspree ID yet — show confirmation anyway (preview mode)
+        console.log('Apply form submitted (preview):', payload);
+        setTimeout(function() { __showApplyConfirmation(form); }, 400);
+      }
+      return false;
+    };
+
+    // ── NEWSLETTER FORM ───────────────────────────────────────
+    // To receive subscribers: go to formspree.io, create a form,
+    // set notification email to hello@righthandstudio.co,
+    // paste the form ID below (e.g. 'xpwzgkna').
+    var NEWSLETTER_FORMSPREE_ID = 'mqeoqyew';
+
+    window.__handleNewsletterSubmit = function(e) {
+      e.preventDefault();
+      var form = e.target;
+      var data = Object.fromEntries(new FormData(form).entries());
+      var btn = form.querySelector('.footer-nl-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      var payload = {
+        _subject: 'Morning Brief subscription — ' + (data.name || data.email),
+        _replyto: data.email,
+        'Name': data.name,
+        'Email': data.email
+      };
+
+      function onSuccess() {
+        var popup = document.getElementById('nl-conf-popup');
+        if (popup) popup.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        form.style.display = 'none';
+      }
+
+      if (NEWSLETTER_FORMSPREE_ID !== 'YOUR_NEWSLETTER_FORMSPREE_ID') {
+        fetch('https://formspree.io/f/' + NEWSLETTER_FORMSPREE_ID, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d.ok || d.next) { onSuccess(); }
+          else { btn.textContent = 'Something went wrong — try again'; btn.disabled = false; }
+        })
+        .catch(function() { btn.textContent = 'Something went wrong — try again'; btn.disabled = false; });
+      } else {
+        console.log('Newsletter signup (preview):', payload);
+        setTimeout(onSuccess, 400);
+      }
+      return false;
+    };
+
+
+    // ── CONFIRMATION POPUP CLOSE HANDLERS ────────────────
+    (function() {
+      function closePopup(id) {
+        var p = document.getElementById(id);
+        if (p) p.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      // Use event delegation on document so it works regardless of when elements are added
+      document.addEventListener('click', function(e) {
+        // Close button clicked
+        if (e.target.closest('#apply-conf-popup-close')) { closePopup('apply-conf-popup'); return; }
+        if (e.target.closest('#nl-conf-popup-close')) { closePopup('nl-conf-popup'); return; }
+        if (e.target.closest('#price-conf-popup-close') || e.target.closest('#price-conf-popup-back')) {
+          closePopup('price-conf-popup');
+          // also reset the price form
+          var form = document.getElementById('price-list-form');
+          if (form) { form.reset(); form.querySelectorAll('.modal-chip-opt').forEach(function(c){c.classList.remove('selected');}); }
+          var btn = document.getElementById('price-list-submit');
+          if (btn) { btn.textContent = 'Send me the price list →'; btn.disabled = false; }
+          return;
+        }
+        // Overlay background clicked
+        if (e.target === document.getElementById('apply-conf-popup')) { closePopup('apply-conf-popup'); return; }
+        if (e.target === document.getElementById('nl-conf-popup')) { closePopup('nl-conf-popup'); return; }
+        if (e.target === document.getElementById('price-conf-popup')) { closePopup('price-conf-popup'); return; }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { closePopup('apply-conf-popup'); closePopup('nl-conf-popup'); closePopup('price-conf-popup'); }
+      });
+    })();
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-row').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.faq-item');
+        var isOpen = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    });
+  </script>
+
+
+
+  
+  
+
+
+  <!-- ── PRICE LIST CONFIRMATION POPUP ── -->
+  <div class="conf-popup-overlay" id="price-conf-popup" role="dialog" aria-modal="true" aria-label="Price list received">
+    <div class="conf-popup-card">
+      <button class="conf-popup-close" id="price-conf-popup-close" aria-label="Close">×</button>
+      <span class="conf-popup-accent"></span>
+      <p class="conf-popup-label">On its way.</p>
+      <h3 class="conf-popup-title">One thing in our inbox,<br>one less in yours.</h3>
+      <p class="conf-popup-body">Your price list is on its way. A human is already on it, and it'll reach you within one business day.</p>
+      <button class="apply-chip" id="price-conf-popup-back" style="background:none;border:1px solid rgba(28,26,24,0.25);cursor:pointer;font-family:var(--font-body);font-size:14px;color:#1C1A18;">Back to site</button>
+    </div>
+  </div>
+
+  <!-- ── APPLY CONFIRMATION POPUP ── -->
+  <div class="conf-popup-overlay" id="apply-conf-popup" role="dialog" aria-modal="true" aria-label="Message received">
+    <div class="conf-popup-card">
+      <button class="conf-popup-close" id="apply-conf-popup-close" aria-label="Close">×</button>
+      <span class="conf-popup-accent"></span>
+      <p class="conf-popup-label">Received.</p>
+      <h3 class="conf-popup-title">Your message has landed in a very tidy inbox.</h3>
+      <p class="conf-popup-body">We'll write back within one business day. If you'd rather talk first, you can book 30 minutes below — we'll have read your message before we meet.</p>
+      <a href="https://calendly.com/righthandstudio/30-minutes" class="apply-chip" target="_blank" rel="noopener noreferrer">Start the conversation →</a>
+    </div>
+  </div>
+
+  <!-- ── NEWSLETTER CONFIRMATION POPUP ── -->
+  <div class="conf-popup-overlay" id="nl-conf-popup" role="dialog" aria-modal="true" aria-label="Subscription confirmed">
+    <div class="conf-popup-card">
+      <button class="conf-popup-close" id="nl-conf-popup-close" aria-label="Close">×</button>
+      <span class="conf-popup-accent"></span>
+      <p class="conf-popup-label">You're in.</p>
+      <h3 class="conf-popup-title">You'll be the first to know.</h3>
+      <p class="conf-popup-body">When Morning Brief launches, your inbox will be the first stop. We'll take good care of it.</p>
+    </div>
+  </div>
+
+</body>
+</html>
