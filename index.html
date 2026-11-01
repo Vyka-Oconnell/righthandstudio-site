@@ -444,9 +444,9 @@
       display: block;
       font-family: var(--font-body);
       font-style: italic;
-      font-size: var(--caption-size);
+      font-size: 16px;
       line-height: 1.45;
-      min-height: 5.8em;
+      min-height: 4.4em;
       margin-bottom: 24px;
     }
     .tier-card--light  .tier-label { color: var(--secondary); }
@@ -522,6 +522,31 @@
     .tier-card--dark   .tier-cta { color: var(--white);   border-bottom: 1px solid rgba(255,255,255,0.3); }
     .tier-card--accent .tier-cta { color: var(--white);   border-bottom: 1px solid rgba(255,255,255,0.55); }
 
+    /* Hours + monthly price per plan */
+    .tier-price {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .tier-price small {
+      font-family: var(--font-body);
+      font-size: 15px;
+      margin-left: 4px;
+    }
+    .tier-meta {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .tier-card--light  .tier-price { color: var(--primary); }
+    .tier-card--dark   .tier-price { color: var(--white); }
+    .tier-card--accent .tier-price { color: var(--white); }
+    .tier-card--light  .tier-meta { color: var(--secondary); }
+    .tier-card--dark   .tier-meta { color: rgba(255, 255, 255, 0.6); }
+    .tier-card--accent .tier-meta { color: rgba(255, 255, 255, 0.75); }
+
     .tiers-footnote {
       text-align: center;
       margin-top: 52px;
@@ -555,6 +580,7 @@
       min-height: 0;
       color: var(--secondary);
     }
+    .tier-alacarte .tier-price { margin: 4px 0 0; color: var(--primary); }
     .tier-alacarte .tier-body {
       margin-bottom: 0;
       font-size: 15px;
@@ -1986,59 +2012,60 @@ We are here for people who still value what can't be automated. Nuance, taste, d
       <div class="tiers-grid">
         <div class="tier-card tier-card--light fade-up delay-1">
           <div class="tier-name">Executive Light</div>
-          <span class="tier-label">For executives who need reliable, responsive support without full delegation </span>
+          <span class="tier-label">For founders starting to delegate</span>
           <div class="tier-divider"></div>
+          <div class="tier-price">$1,150<small>/ month</small></div>
+          <p class="tier-meta">20 hours a month<br>Replies within 4 business hours</p>
           <ul class="tier-list">
-            <li>Calendar and inbox with strategic oversight</li>
-            <li>Briefings &amp; communications</li>
-            <li>Meeting prep, research &amp; decks</li>
-            <li>Stakeholder coordination</li>
-            <li>Business traveling</li>
+            <li>Calendar management</li>
+            <li>Inbox management</li>
+            <li>Meeting prep</li>
+            <li>Briefings</li>
+            <li>Business travel</li>
           </ul>
         </div>
         <div class="tier-card tier-card--dark fade-up delay-2">
-          <div class="tier-name">Executive Partner</div>
-          <span class="tier-label">For executives who want tasks completed without updates at every step </span>
+          <div class="tier-name">Executive Plus</div>
+          <span class="tier-label">For CEOs ready to hand over their calendar and inbox</span>
           <div class="tier-divider"></div>
+          <div class="tier-price">$2,200<small>/ month</small></div>
+          <p class="tier-meta">40 hours a month<br>Replies within 2 business hours</p>
+          <p class="tier-list-lead">Everything in Executive Light, plus:</p>
           <ul class="tier-list">
-            <li>Full inbox and calendar ownership</li>
-            <li>Complex travel logistics (multi-city, private travel coordination)</li>
-            <li>Vendor sourcing and management</li>
-            <li>Stakeholder communication</li>
-            <li>Light project coordination (Notion/Asana/Slack)</li>
-            <li>Weekly 30-min sync call (optional)</li>
-            <li>SOP documentation for recurring workflows</li>
-            <li>Workflow optimisation recommendations</li>
+            <li>Full calendar and inbox ownership</li>
+            <li>Complex and private travel</li>
+            <li>Vendor management</li>
+            <li>Project coordination</li>
+            <li>SOPs for recurring workflows</li>
           </ul>
         </div>
         <div class="tier-card tier-card--accent fade-up delay-3">
-          <div class="tier-name">Executive + Personal</div>
-          <span class="tier-label">For C-Suite and UHNW who need a true right-hand, professional and personal, unified </span>
+          <div class="tier-name">Executive Partner</div>
+          <span class="tier-label">For leaders who need work and life handled as one</span>
           <div class="tier-divider"></div>
-          <p class="tier-list-lead">Your Executive Partner Plan plus:</p>
+          <div class="tier-price">$3,150<small>/ month</small></div>
+          <p class="tier-meta">60 hours a month<br>Replies within 1 hour</p>
+          <p class="tier-list-lead">Everything in Executive Plus, plus:</p>
           <ul class="tier-list">
-            <li>Personal logistics (household vendors, appointments, family coordination)</li>
-            <li>Event planning and coordination</li>
-            <li>Lifestyle research and reservations</li>
-            <li>Extended hours availability</li>
-            <li>Quarterly ops + life review session (60 min)</li>
+            <li>Household management</li>
+            <li>Family coordination</li>
+            <li>Appointments</li>
+            <li>Lifestyle management</li>
           </ul>
         </div>
       </div>
 
-      <!-- Fourth offer: compact à la carte strip -->
+      <!-- Fourth strip: overage -->
       <div class="tier-alacarte fade-up">
         <div class="tier-alacarte-head">
-          <div class="tier-name">À la carte</div>
-          <span class="tier-label">Custom. Hourly.</span>
+          <div class="tier-name">Overage</div>
+          <div class="tier-price">$70<small>/ hour</small></div>
+          <span class="tier-label">Extra hours, any plan</span>
         </div>
-        <p class="tier-body">For needs that fall outside the three tiers, highly personalised, deeply integral, or one-off in nature. We analyse the work, quote an hourly rate, and proceed only when the fit is right.</p>
+        <p class="tier-body">Busier month than usual? Add extra hours to any plan at $70 per hour. You only pay for the hours you use, and your plan stays the same.</p>
       </div>
 
-      <!-- Single CTA below all four offers -->
-      <div class="pricelist-cta-row">
-        <button class="pricelist-cta" onclick="document.getElementById('price-modal').classList.add('is-open')">Access price list →</button>
-      </div>
+
     </div>
   </section>
 
@@ -2325,7 +2352,7 @@ The people behind your work aren't tools, they're trusted partners who happen to
           </button>
           <div class="faq-answer-wrap">
             <div class="faq-answer">
-              <p>That's expected, not an exception. You can move between plans at any time with 15 business days' notice, giving us time to reorganise and make sure you're fully covered through the transition. The first couple of months include a structured check-in to confirm the plan you started with is still the right one. After that, it's month-to-month.</p>
+              <p>That's expected, not an exception. You can move between plans at any time with 15 business days' notice, so we can reorganise and keep everything running smoothly through the transition. It's all month-to-month.</p>
             </div>
           </div>
         </li>
@@ -2363,9 +2390,8 @@ The people behind your work aren't tools, they're trusted partners who happen to
               <select id="apply-support" name="support" class="apply-select" required="">
                 <option value="" disabled="" selected="">Select an option</option>
                 <option value="executive-light">Executive Light</option>
+                <option value="executive-plus">Executive Plus</option>
                 <option value="executive-partner">Executive Partner</option>
-                <option value="executive-personal">Executive + Personal</option>
-                <option value="a-la-carte">À la carte</option>
                 <option value="not-sure">I don't know yet</option>
               </select>
             </div>
